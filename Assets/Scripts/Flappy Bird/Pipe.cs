@@ -10,4 +10,12 @@ public class Pipe : MonoBehaviour
     {
         this.transform.position += Vector3.left * speed * Time.deltaTime;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Destroy")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
