@@ -8,6 +8,9 @@ public class Pipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.isEndGame) return;
+
+        // if Bird Die => return
         this.transform.position += Vector3.left * speed * Time.deltaTime;
     }
 
