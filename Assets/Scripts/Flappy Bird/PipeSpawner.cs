@@ -18,6 +18,7 @@ public class PipeSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.isStartGame == false) return;
         if (GameManager.Instance.isEndGame) return;
         if (currentTimeSpawn > delayPerSpawn)
         {

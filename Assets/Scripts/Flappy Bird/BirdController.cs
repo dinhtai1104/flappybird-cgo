@@ -11,6 +11,7 @@ public class BirdController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -25,12 +26,16 @@ public class BirdController : MonoBehaviour
 
         if (isTap)
         {
-            // Nhay
             Jump();
         }
+        if (GameManager.Instance.isStartGame == false) return;
         RotateBird();
     }
 
+    public void StartGame()
+    {
+        rb.gravityScale = 1;
+    }
 
     protected void RotateBird()
     {
