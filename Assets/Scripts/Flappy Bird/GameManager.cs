@@ -8,17 +8,27 @@ public class GameManager : MonoBehaviour // this = new GameManager();
     public static GameManager Instance = null;
     public bool isEndGame;
     public bool isStartGame;
-    public int score;
     public bool isPauseGame;
+    public float speed;
 
+    public Transform spawnPosition;
+    public BirdController birdPrefab;
     public BirdController bird;
 
     private int collisionCount = 0;
-    private void Start()
+
+    private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         isPauseGame = false;
         isStartGame = false;
+
+        bird = Instantiate(birdPrefab, spawnPosition.position, Quaternion.identity);
+        bird.rb.gravityScale = 0;
     }
 
     public void StartGame()
@@ -57,6 +67,8 @@ public class GameManager : MonoBehaviour // this = new GameManager();
     {
         if (collisionCount == 0)
         {
+            bird.Dead();
+            DataManager.Instance.SetBestScore();
             isEndGame = true;
             AudioManager.Instance.PlayEndGameAudio();
             UIManager.Instance.LoseGame();
@@ -66,8 +78,14 @@ public class GameManager : MonoBehaviour // this = new GameManager();
 
     public void AddScore()
     {
-        score++;
-        UIManager.Instance.UpdateScore(score);
+        DataManager.Instance.AddScore();
+        int playerScore = DataManager.Instance.GetScore();
+        UIManager.Instance.UpdateScore(playerScore);
         AudioManager.Instance.PlayScoreAudio();
+    }
+
+    public int GetScore()
+    {
+        return DataManager.Instance.GetScore();
     }
 }

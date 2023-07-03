@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pipe : MonoBehaviour
+public class Ground : MonoBehaviour
 {
+    public Transform startPos;
+    public Transform endPos;
     // Update is called once per frame
     void Update()
     {
@@ -11,13 +13,9 @@ public class Pipe : MonoBehaviour
 
         // if Bird Die => return
         this.transform.position += Vector3.left * GameManager.Instance.speed * Time.deltaTime;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Destroy")
+        if (transform.position.x < endPos.position.x)
         {
-            Destroy(gameObject);
+            transform.position = startPos.position;
         }
     }
 }

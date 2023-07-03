@@ -8,9 +8,9 @@ public class BirdController : MonoBehaviour
     public float jumpForce;
     public float jumpAngle;
     public float angleRotateSpeed;
+    public Animator animator;
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
     }
 
@@ -35,6 +35,11 @@ public class BirdController : MonoBehaviour
     public void StartGame()
     {
         rb.gravityScale = 1;
+    }
+
+    public void Dead()
+    {
+        animator.enabled = false;
     }
 
     protected void RotateBird()

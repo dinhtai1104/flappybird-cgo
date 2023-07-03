@@ -12,10 +12,13 @@ public class UIManager : MonoBehaviour
     public GameObject buttonStartGame;
     public TextMeshProUGUI textScore;
 
-    public GameObject loseGamePanel;
+    public GameObject splashScreen;
+    public UILoseGame loseGamePanel;
+
     // Start is called before the first frame update
     void Start()
     {
+        splashScreen.SetActive(false);
         Instance = this;
         UpdateScore(0);
     }
@@ -38,6 +41,24 @@ public class UIManager : MonoBehaviour
 
     public void LoseGame()
     {
-        loseGamePanel.SetActive(true);
+        StartCoroutine(WaitForLose());
+    }
+
+    private IEnumerator WaitForLose()
+    {
+        splashScreen.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        splashScreen.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+        loseGamePanel.Show();
+
+        int playerScore = GameManager.Instance.GetScore();
+
+        loseGamePanel.SetPlayerScoreText(playerScore);
+        loseGamePanel.SetMedalImage(playerScore);
+
+        int bestScore = PlayerPrefs.GetInt("BestScore");
+        loseGamePanel.SetBestScoreText(bestScore);
     }
 }
